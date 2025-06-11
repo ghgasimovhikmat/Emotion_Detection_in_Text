@@ -30,4 +30,4 @@ setInterval(() => {
     })
     .catch(err => console.error("Emotion detection error:", err));
   }
-}, 2000); // check every 2 seconds
+}, 5000); // check every 5 seconds
