@@ -20,6 +20,7 @@ function App() {
   const [activeMenu, setActiveMenu] = useState('Home');
   const [prediction, setPrediction] = useState(null);
   const [probabilities, setProbabilities] = useState([]);
+  const [model, setModel] = useState('lr');
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
@@ -39,10 +40,12 @@ function App() {
   
     return null;
   };
+
   const handleSubmit = async () => {
     try {
       const response = await axios.post('http://localhost:5000/predict', {
         text: text,
+        model:model
       });
 
       setPrediction(response.data.emotion);
@@ -77,6 +80,15 @@ function App() {
 
         {activeMenu === 'Home' && (
           <>
+          <div className="model-select">
+  <label htmlFor="model" style={{ fontWeight: 'bold' }}>Select Model:</label>
+  <select id="model" value={model} onChange={(e) => setModel(e.target.value)}>
+    <option value="lr">Logistic Regression (Balanced)</option>
+    <option value="nb">Naive Bayes (Balanced)</option>
+    <option value="orig">Logistic Regression (Original)</option>
+  </select>
+</div>
+
             <EmotionForm text={text} setText={setText} handleSubmit={handleSubmit} />
 
             {prediction && (

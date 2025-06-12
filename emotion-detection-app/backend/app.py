@@ -4,36 +4,40 @@ from flask_cors import CORS
 import joblib
 import numpy as np
 
-# ✅ Load your trained model here
-# Replace the path below with your actual model filename
-model = joblib.load("./models/emotion_classifier_pipe_lr1")
 
+
+#model = joblib.load("./models/balanced_dataset_logisticr_model.pkl")
+#model = joblib.load("./models/balanced_dataset_naivebayes_model.pkl")
+#model = joblib.load("./models/original_dataset_logisticr_model.pkl")
 # Flask app setup
 app = Flask(__name__)
 CORS(app)
+models = {
+    "lr": joblib.load("./models/balanced_dataset_logisticr_model.pkl"),
+    "nb": joblib.load("./models/balanced_dataset_naivebayes_model.pkl"),
+    "orig": joblib.load("./models/original_dataset_logisticr_model.pkl")
+}
 
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.get_json()
     text = data.get('text', '')
+    model_type = data.get('model', 'lr')  # default to 'lr'
 
-    if not text:
-        return jsonify({'error': 'No input text provided'}), 400
+    model = models.get(model_type)
+    if not model:
+        return jsonify({'error': 'Invalid model type'}), 400
 
-    # Predict emotion
     prediction = model.predict([text])[0]
     probabilities = model.predict_proba([text])[0]
     labels = model.classes_
 
-    proba_list = [
-        {'emotion': label, 'probability': float(prob)}
-        for label, prob in zip(labels, probabilities)
-    ]
-
     return jsonify({
         'emotion': prediction,
-        'probabilities': proba_list
+        'probabilities': [
+            {'emotion': label, 'probability': float(prob)}
+            for label, prob in zip(labels, probabilities)
+        ]
     })
-
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

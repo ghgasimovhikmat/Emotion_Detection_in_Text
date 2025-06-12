@@ -132,3 +132,22 @@ button:active {
   color: #f0f0f0 !important;
   font-size: clamp(0.7rem, 1vw, 1rem);
 }
+
+.model-select {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: #222;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.model-select select {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 0.4rem;
+  font-size: 1rem;
+  border-radius: 4px;
+}
