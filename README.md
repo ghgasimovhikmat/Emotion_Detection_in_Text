@@ -11,9 +11,9 @@ This project is a full-stack application for detecting emotions in user-written 
 ##  Project Structure
 
 emotion-app/
-├── backend/ # Flask API + ML models
-├── ui/ # React UI
-└── linkedin-emotion-extension/ # LinkedIn Chrome extension
+ backend/ # Flask API + ML models
+ ui/ # React UI
+ linkedin-emotion-extension/ # LinkedIn Chrome extension
 
 ---
 
@@ -104,19 +104,21 @@ content.js
 
 
 ## 04 Running the App
-1. Backend (Flask)
+
+#1. Backend (Flask)
 
 cd backend/
 python -m venv venv
 source venv/bin/activate  # or venv\Scripts\activate on Windows
 pip install -r requirements.txt
 python app.py
-2. Frontend (React)
+
+#2. Frontend (React)
 
 cd ui/
 npm install
 npm start
-3. Chrome Extension
+#3. Chrome Extension
 Open chrome://extensions
 
 Enable Developer Mode
